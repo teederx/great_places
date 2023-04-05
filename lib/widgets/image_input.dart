@@ -21,9 +21,9 @@ class _ImageInputState extends State<ImageInput> {
     final picker = ImagePicker();
     final imageFile = await picker.pickImage(
       source: ImageSource.camera,
-      maxWidth: 600,//Our app doesn't need a high resolution image...
+      maxWidth: 600, //Our app doesn't need a high resolution image...
     );
-    if(imageFile == null){
+    if (imageFile == null) {
       return;
     }
     setState(() {
@@ -35,7 +35,7 @@ class _ImageInputState extends State<ImageInput> {
     final fileName = p.basename(imageFile.path);
     //Store image in directory
     final savedImage = imageFile.saveTo('${appDir.path}/$fileName');
-    widget.onSelectImage(_storedImage);
+    widget.onSelectImage(savedImage);
   }
 
   @override
