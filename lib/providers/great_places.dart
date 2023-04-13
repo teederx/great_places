@@ -19,17 +19,17 @@ class GreatPlaces with ChangeNotifier {
       location: null,
       title: title,
     );
+    notifyListeners();
     _items.add(newPlace);
-    DBHelper.insert('places', {
+    DBHelper.insert('user_places', {
       'id': newPlace.id,
       'title': newPlace.title,
       'image': newPlace.image.path,
     });
-    notifyListeners();
   }
 
   Future<void> fetchAndSetPlaces() async {
-    final dataList = await DBHelper.getData('places');
+    final dataList = await DBHelper.getData('user_places');
     _items = dataList
         .map(
           (item) => Place(

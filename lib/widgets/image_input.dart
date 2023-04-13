@@ -17,6 +17,8 @@ class ImageInput extends StatefulWidget {
 class _ImageInputState extends State<ImageInput> {
   File? _storedImage;
 
+  //TODO: Fix Orientation of image...
+
   Future<void> _takePicture() async {
     final picker = ImagePicker();
     final imageFile = await picker.pickImage(
@@ -26,16 +28,17 @@ class _ImageInputState extends State<ImageInput> {
     if (imageFile == null) {
       return;
     }
+    File images = File(imageFile.path);
     setState(() {
-      _storedImage = File(imageFile.path);
+      _storedImage = images;
     });
     //First, we find path where we can store data on the device...
     final appDir = await syspaths.getApplicationDocumentsDirectory();
     //To get the name the camera App gives to our image...
     final fileName = p.basename(imageFile.path);
     //Store image in directory
-    final savedImage = imageFile.saveTo('${appDir.path}/$fileName');
-    widget.onSelectImage(savedImage);
+    final savedImage = await images.copy('${appDir.path}/$fileName');
+    await widget.onSelectImage(savedImage);
   }
 
   @override
