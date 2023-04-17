@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:great_places/screens/place_detail_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/great_places.dart';
@@ -48,7 +49,11 @@ class PlacesListScreen extends StatelessWidget {
                           subtitle:
                               Text(greatPlaces.items[i].location!.address),
                           onTap: () {
-                            //TODO: Go to detail page...
+                            Navigator.pushNamed(
+                              context,
+                              PlaceDetailScreen.routeName,
+                              arguments: greatPlaces.items[i].id,
+                            );
                           },
                         ),
                       ),

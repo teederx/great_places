@@ -19,7 +19,7 @@ class MapScreen extends StatefulWidget {
     this.isSelecting = false,
   });
 
-  final PlaceLocation initialLocation;
+  final PlaceLocation? initialLocation;
   final bool isSelecting;
 
   @override
@@ -49,8 +49,10 @@ class _MapScreenState extends State<MapScreen> {
                   _selectLocation(point);
                 }
               : null,
-          center: LatLng(widget.initialLocation.latitude,
-              widget.initialLocation.longitude),
+          center: LatLng(
+            widget.initialLocation!.latitude,
+            widget.initialLocation!.longitude,
+          ),
         ),
         children: [
           TileLayer(
@@ -61,12 +63,15 @@ class _MapScreenState extends State<MapScreen> {
             },
           ),
           MarkerLayer(
-            markers: _pickedLocation == null
+            markers: (_pickedLocation == null && widget.isSelecting)
                 ? []
                 : [
                     Marker(
-                      point: LatLng(_pickedLocation!.latitude,
-                          _pickedLocation!.longitude),
+                      point: _pickedLocation == null
+                          ? LatLng(widget.initialLocation!.latitude,
+                              widget.initialLocation!.longitude)
+                          : LatLng(_pickedLocation!.latitude,
+                              _pickedLocation!.longitude),
                       builder: (context) => Icon(
                         Icons.location_on_rounded,
                         color: Theme.of(context).colorScheme.primary,
